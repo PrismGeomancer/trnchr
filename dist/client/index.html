@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111310">
+  <meta name="description" content="A fictional 99-day pixel-art crypto trenching simulator.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="$TRENCHER — 99 Day Simulator">
+  <meta property="og:description" content="Read the signals, manage the exits, and survive 99 fictional days in the crypto trenches.">
+  <meta property="og:image" content="https://trencher-99-day-simulator.stivan-ms.chatgpt.site/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="$TRENCHER — 99 Day Simulator">
+  <meta name="twitter:description" content="Read the signals, manage the exits, and survive 99 fictional days in the crypto trenches.">
+  <meta name="twitter:image" content="https://trencher-99-day-simulator.stivan-ms.chatgpt.site/og.png">
+  <title>$TRENCHER — 99 Day Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <section class="boot-screen" id="bootScreen" aria-labelledby="bootTitle">
+    <div class="boot-card">
+      <img src="trencher-official-logo-v2.png" class="boot-logo" alt="Trencher pixel-art logo with a hooded digger and 99 badge">
+      <p class="eyebrow">A 99 day market survival game</p>
+      <h1 id="bootTitle">Dig through noise.<br><span>Find the signal.</span></h1>
+      <p class="boot-copy">Start with $2,500. Read the clues, manage your exits, and survive the most unserious market on earth.</p>
+      <form id="startForm" class="start-form">
+        <label for="callsign">Choose a callsign</label>
+        <div class="input-row">
+          <input id="callsign" maxlength="14" autocomplete="nickname" placeholder="FRESH WALLET" value="FRESH WALLET">
+          <button class="button button-primary" type="submit">Start new run <span aria-hidden="true">→</span></button>
+        </div>
+      </form>
+      <div class="boot-actions">
+        <button class="text-button" id="resumeButton" type="button" hidden>Resume saved run</button>
+        <button class="text-button" id="howButtonBoot" type="button">How to play</button>
+      </div>
+      <div class="boot-meta"><span>Fictional tokens</span><span>No wallet required</span><span>Not financial advice</span></div>
+    </div>
+  </section>
+
+  <div class="game-shell" id="gameShell" hidden>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="$Trencher home">
+        <img src="trencher-official-logo-v2.png" alt="">
+        <span>$TRENCHER</span>
+      </a>
+      <div class="season-progress" aria-label="Run progress">
+        <div class="season-copy"><span>99 day run</span><strong id="dayText">Day 01 / 99</strong></div>
+        <div class="progress-track"><span id="dayProgress"></span></div>
+      </div>
+      <div class="top-actions">
+        <span class="save-status" id="saveStatus">LOCAL SAVE</span>
+        <button class="icon-button" id="howButton" type="button">How to play</button>
+        <button class="icon-button" id="soundButton" type="button" aria-pressed="true" aria-label="Mute sound">SFX: ON</button>
+        <button class="icon-button danger-text" id="resetButton" type="button">Reset</button>
+      </div>
+    </header>
+
+    <div class="market-strip" aria-live="polite">
+      <span class="live-dot"></span>
+      <strong id="marketMood">Market: feral</strong>
+      <span class="strip-separator">//</span>
+      <span id="marketTicker">New pairs spawning. Verify before you vibe.</span>
+    </div>
+
+    <main class="dashboard">
+      <aside class="panel operator-panel">
+        <div class="operator-portrait">
+          <img src="logo2.jpg" alt="Hooded pixel-art trader at a computer">
+          <span class="rank-badge" id="rankBadge">LV. 01</span>
+        </div>
+        <p class="panel-kicker">Operator</p>
+        <h2 id="operatorName">Fresh Wallet</h2>
+        <div class="rank-line"><span id="rankName">Fresh Wallet</span><span id="reputationText">0 rep</span></div>
+        <div class="rank-progress"><span id="rankProgress"></span></div>
+
+        <div class="stats" aria-label="Operator skills">
+          <div class="stat"><div><span>Alpha</span><b id="alphaValue">1</b></div><div class="stat-bar"><span id="alphaBar"></span></div></div>
+          <div class="stat"><div><span>Execution</span><b id="executionValue">1</b></div><div class="stat-bar"><span id="executionBar"></span></div></div>
+          <div class="stat"><div><span>Risk control</span><b id="riskValue">1</b></div><div class="stat-bar"><span id="riskBar"></span></div></div>
+          <div class="stat"><div><span>Meme sense</span><b id="memeValue">1</b></div><div class="stat-bar"><span id="memeBar"></span></div></div>
+        </div>
+
+        <button class="side-button upgrade-button" id="upgradeButton" type="button">
+          <span><small>Spend reputation</small>Upgrade lab</span><b id="upgradeCount">3</b>
+        </button>
+        <button class="side-button" id="journalButton" type="button">
+          <span><small>Review the damage</small>Trade journal</span><b id="journalCount">0</b>
+        </button>
+        <button class="side-button" id="achievementButton" type="button">
+          <span><small>Career milestones</small>Achievements</span><b id="achievementCount">0/6</b>
+        </button>
+      </aside>
+
+      <section class="panel terminal-panel" aria-label="Trading terminal">
+        <div class="terminal-head">
+          <div>
+            <p class="panel-kicker">Fresh pair detected</p>
+            <div class="token-title"><div class="token-icon" id="tokenIcon">B</div><div><h2 id="tokenTicker">$BARK</h2><p id="tokenName">Bark Protocol</p></div></div>
+          </div>
+          <div class="price-block"><span id="priceText">$0.00420</span><strong id="changeText" class="positive">+0.0%</strong></div>
+        </div>
+
+        <div class="thesis-strip"><span>Market thesis</span><p id="narrativeText">Dog meta returns wearing a tie.</p><b id="positionDetail">NO POSITION</b></div>
+
+        <div class="chart-wrap">
+          <div class="chart-grid" aria-hidden="true"></div>
+          <canvas id="priceChart" aria-label="Simulated token price chart"></canvas>
+          <div class="chart-status" id="chartStatus">Watching launch...</div>
+          <div class="pnl-float" id="pnlFloat" hidden><small>Position P&amp;L</small><strong id="pnlText">+$0.00</strong></div>
+        </div>
+
+        <div class="signal-row" id="signalRow">
+          <article class="signal"><span class="signal-icon">LQ</span><div><small>Liquidity</small><strong id="liquiditySignal">Locked</strong></div></article>
+          <article class="signal"><span class="signal-icon">H1</span><div><small>Top holders</small><strong id="holderSignal">18%</strong></div></article>
+          <article class="signal"><span class="signal-icon">⚡</span><div><small>Momentum</small><strong id="momentumSignal">Building</strong></div></article>
+        </div>
+
+        <div class="decision-bar">
+          <div class="sizing" id="sizingControls">
+            <span>Position size</span>
+            <div class="segmented" role="group" aria-label="Position size">
+              <button type="button" data-size="0.1">10%</button>
+              <button type="button" class="active" data-size="0.25">25%</button>
+              <button type="button" data-size="0.5">50%</button>
+            </div>
+          </div>
+          <div class="trade-actions" id="entryActions">
+            <button class="button button-ghost" id="skipButton" type="button">Skip pair</button>
+            <button class="button button-primary" id="buyButton" type="button">Enter trade <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="trade-actions" id="exitActions" hidden>
+            <button class="button button-ghost" id="partialButton" type="button">Take 25%</button>
+            <button class="button button-sell" id="sellButton" type="button">Exit position <span aria-hidden="true">↘</span></button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel intel-panel">
+        <div class="panel-heading"><div><p class="panel-kicker">Live intelligence</p><h2>Trench feed</h2></div><span class="pulse-label">LIVE</span></div>
+        <div class="feed" id="feed" aria-live="polite"></div>
+        <div class="intel-note"><span>Rug radar</span><strong id="riskLabel">Medium risk</strong><div class="risk-meter"><span id="riskMeter"></span></div><p id="riskCopy">Contract looks ordinary. In this market, that is not a compliment.</p></div>
+      </aside>
+    </main>
+
+    <footer class="account-bar">
+      <div><small>Portfolio</small><strong id="portfolioText">$2,500.00</strong></div>
+      <div><small>Available</small><strong id="cashText">$2,500.00</strong></div>
+      <div><small>Run P&amp;L</small><strong id="runPnlText">$0.00</strong></div>
+      <div><small>Record</small><strong id="recordText">0W / 0L</strong></div>
+      <p>Simulated market • zero real assets • maximum emotional damage</p>
+    </footer>
+  </div>
+
+  <dialog class="drawer" id="upgradeDialog">
+    <div class="dialog-head"><div><p class="panel-kicker">Spend reputation</p><h2>Upgrade lab</h2></div><button class="close-button" data-close="upgradeDialog" aria-label="Close upgrade lab">×</button></div>
+    <p class="dialog-intro">Buy an edge, not another panel. Every upgrade makes existing signals clearer or execution safer.</p>
+    <div class="upgrade-grid" id="upgradeGrid"></div>
+  </dialog>
+
+  <dialog class="drawer journal-dialog" id="journalDialog">
+    <div class="dialog-head"><div><p class="panel-kicker">Receipts never lie</p><h2>Trade journal</h2></div><button class="close-button" data-close="journalDialog" aria-label="Close trade journal">×</button></div>
+    <div class="journal-list" id="journalList"></div>
+  </dialog>
+
+  <dialog class="drawer" id="achievementDialog">
+    <div class="dialog-head"><div><p class="panel-kicker">Career milestones</p><h2>Achievements</h2></div><button class="close-button" data-close="achievementDialog" aria-label="Close achievements">×</button></div>
+    <p class="dialog-intro">Small proof that the questionable decisions were at least memorable.</p>
+    <div class="achievement-grid" id="achievementGrid"></div>
+  </dialog>
+
+  <dialog class="drawer how-dialog" id="howDialog">
+    <div class="dialog-head"><div><p class="panel-kicker">Field manual</p><h2>How to trench</h2></div><button class="close-button" data-close="howDialog" aria-label="Close instructions">×</button></div>
+    <div class="how-grid">
+      <article><span>01</span><h3>Read the pair</h3><p>Use liquidity, holders, momentum, and the live feed to decide whether the setup deserves your bankroll.</p></article>
+      <article><span>02</span><h3>Size the risk</h3><p>Choose 10%, 25%, or 50%. Strong conviction is not a substitute for surviving the next trade.</p></article>
+      <article><span>03</span><h3>Plan the exit</h3><p>Scale out or close the position as events unfold. Profitable exits earn reputation for better tools.</p></article>
+    </div>
+    <div class="manual-notes"><p><b>B</b> Enter trade</p><p><b>S</b> Exit position</p><p><b>99</b> Days to survive</p></div>
+    <button class="button button-primary manual-close" data-close="howDialog" type="button">Understood</button>
+  </dialog>
+
+  <dialog class="result-dialog" id="resultDialog">
+    <p class="panel-kicker" id="resultKicker">Trade closed</p>
+    <h2 id="resultTitle">Clean exit.</h2>
+    <strong class="result-number" id="resultNumber">+$0.00</strong>
+    <p id="resultCopy">Nobody went broke taking profit. Plenty got bored, though.</p>
+    <button class="button button-primary" id="nextPairButton" type="button">Scan next pair <span aria-hidden="true">→</span></button>
+  </dialog>
+
+  <dialog class="result-dialog end-dialog" id="endDialog">
+    <p class="panel-kicker">The 99 day report</p>
+    <h2 id="endTitle">You survived the trenches.</h2>
+    <strong class="result-number" id="endPortfolio">$0</strong>
+    <div class="end-stats" id="endStats"></div>
+    <p id="endCopy"></p>
+    <button class="button button-primary" id="playAgainButton" type="button">Run it back <span aria-hidden="true">↻</span></button>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

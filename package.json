@@ -1,0 +1,9 @@
+{
+  "name": "trencher-99-day-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check script.js && node --check dist/server/index.js"
+  }
+}
